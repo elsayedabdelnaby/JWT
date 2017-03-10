@@ -12,7 +12,7 @@
                         result = CryptoJS.enc.Base64.stringify(wordArray);
                 return result;
             }
-            
+
             function getBase64Decode(encStr) {
                 'use strict';
                 var wordArray = CryptoJS.enc.Base64.parse(encStr),
@@ -26,13 +26,28 @@
                         resultEncode = document.getElementById('resultEncode');
                 resultEncode.innerHTML = getBase64Encode(txtEncode.value);
             }
-            
+
             function doDecode() {
                 'use strict';
                 var txtDecode = document.getElementById('txtDecode'),
                         resultDecode = document.getElementById('resultDecode');
                 resultDecode.innerHTML = getBase64Decode(txtDecode.value);
             }
+
+            function createJWT() {
+                'use strict';
+                var txtHeader = document.getElementById('txtHeader'), // header must be in json object form, ex: {"typ":"JWT","alg":"HS256"}
+                        txtPayload = document.getElementById('txtPayload'), // must be in json object form, ex: {"iss":"ABC Service","username":"elsayed","admin":false}
+                        txtSecret = document.getElementById('txtSecret'),
+                        resultJWT = document.getElementById('resultJWT'),
+                        base64Header = getBase64Encode(txtHeader),
+                        base64Payload = getBase64Encode(txtPayload),
+                        signature = CryptoJS.HmacSHA256(base64Header + '.' + base64Payload, txtSecret),
+                        base64Signature = CryptoJS.enc.Base64.stringify(signature),
+                        jwt = base64Header + '.' + base64Payload + '.' + base64Signature;
+                resultJWT.textContent = jwt;
+            }
+
         </script>
     </head>
 
@@ -66,6 +81,33 @@
             <tr>
                 <td>Result:</td>
                 <td><span id="resultDecode"></span></td>
+            </tr>
+        </table>
+        <hr>
+        <table>
+            <tr>
+                <td>Enter JWT Header</td>
+                <td><input type="text" id="txtHeader"></td>
+            </tr>
+            <tr>
+                <td>Enter JWT Payload</td>
+                <td><input type="text" id="txtPayload"></td>
+            </tr>
+            <tr>
+                <td>Enter JWT Secret/Password</td>
+                <td><input type="text" id="txtSecret"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button onclick="createJWT()">Show JWT</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Result:</td>
+                <td>
+                    <div id="resultJWT" style="width: 600px;overflow-wrap: break-word;"></div>
+                </td>
             </tr>
         </table>
     </body>

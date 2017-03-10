@@ -1,0 +1,73 @@
+<html>
+
+    <head>
+        <script src="src/core.js"></script>
+        <script src="src/enc-base64.js"></script>
+        <script src="src/hmac.js"></script>
+        <script src="src/sha256.js"></script>
+        <script>
+            function getBase64Encode(rawStr) {
+                'use strict';
+                var wordArray = CryptoJS.enc.Utf8.parse(rawStr),
+                        result = CryptoJS.enc.Base64.stringify(wordArray);
+                return result;
+            }
+            
+            function getBase64Decode(encStr) {
+                'use strict';
+                var wordArray = CryptoJS.enc.Base64.parse(encStr),
+                        result = wordArray.toString(CryptoJS.enc.Utf8);
+                return result;
+            }
+
+            function doEncode() {
+                'use strict';
+                var txtEncode = document.getElementById('txtEncode'),
+                        resultEncode = document.getElementById('resultEncode');
+                resultEncode.innerHTML = getBase64Encode(txtEncode.value);
+            }
+            
+            function doDecode() {
+                'use strict';
+                var txtDecode = document.getElementById('txtDecode'),
+                        resultDecode = document.getElementById('resultDecode');
+                resultDecode.innerHTML = getBase64Decode(txtDecode.value);
+            }
+        </script>
+    </head>
+
+    <body>
+        <table>
+            <tr>
+                <td>Enter string to base64 encode:</td>
+                <td>
+                    <input type="text" id="txtEncode">
+                </td>
+                <td>
+                    <button onclick="doEncode()">Encode</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Result:</td>
+                <td><span id="resultEncode"></span></td>
+            </tr>
+        </table>
+        <hr>
+        <table>
+            <tr>
+                <td>Enter string to base64 decode:</td>
+                <td>
+                    <input type="text" id="txtDecode">
+                </td>
+                <td>
+                    <button onclick="doDecode()">Decode</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Result:</td>
+                <td><span id="resultDecode"></span></td>
+            </tr>
+        </table>
+    </body>
+
+</html>

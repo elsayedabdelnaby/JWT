@@ -6,7 +6,8 @@ var CryptoJS = CryptoJS || (function (Math, undefined) {
      * Local polyfil of Object.create
      */
     var create = Object.create || (function () {
-        function F() {};
+        function F() {}
+        ;
 
         return function (obj) {
             var subtype;
@@ -690,7 +691,7 @@ var CryptoJS = CryptoJS || (function (Math, undefined) {
             return hash;
         },
 
-        blockSize: 512/32,
+        blockSize: 512 / 32,
 
         /**
          * Creates a shortcut function to a hasher's object interface.
